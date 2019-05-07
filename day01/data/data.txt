@@ -1,0 +1,2 @@
+https://archive.ics.uci.edu/ml/datasets/auto+mpg
+https://www.kaggle.com/mczielinski/bitcoin-historical-data
