@@ -11,7 +11,7 @@ import seaborn as sns
 cols = ['Feature_1', 'Feature_2', 'Feature_3', 'Feature_4', 'Feature_5'
     , 'Ret_MinusTwo', 'Ret_MinusOne', 'Ret_2', 'Ret_3']
 target = 'Ret_3'
-df = pd.read_csv('/home/cmlee/tmp/kml03_practice/day02/data/winton/train.csv'
+df = pd.read_csv('day02_regression/data/winton/train.csv'
     , usecols=cols
 )
 
@@ -61,6 +61,9 @@ df_features_clean.head(20)
 
 #%%
 from sklearn.model_selection import train_test_split
+
+print(len(df_features_clean))
+print(len(df_target_clean))
 
 X_train, X_test, y_train, y_test = train_test_split(df_features_clean, df_target_clean, random_state=42)
 print('X_train: %d, y_train: %d' %(len(X_train), len(y_train)))
@@ -147,6 +150,7 @@ y_predict = sgd.predict(X_test_scaled)
 print('MSE: ', mean_squared_error(y_test, y_predict))
 print('R^2: ', r2_score(y_test, y_predict))
 
+
 #%%
 # pickle it
 import pickle
@@ -156,6 +160,8 @@ with open('winton.pickle', 'wb') as f:
     f.flush()
 
 #%%
-plt.plot(range(len(y_test)), y_test, color='g', label='observed')
-plt.plot(range(len(y_predict)), y_predict, color='b', label='y_hat')
+fig, ax = plt.subplots(figsize=(10, 10))
+ax.plot(range(len(y_test)), y_test, label='Actual')
+ax.plot(range(len(y_predict)), y_predict, label='Predict')
 plt.legend()
+plt.grid()
