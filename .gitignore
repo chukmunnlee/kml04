@@ -2,4 +2,4 @@ venv
 *.pickle
 .vscode
 *.csv
-data/**
+data
