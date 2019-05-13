@@ -25,6 +25,7 @@ vec_summary = vectorizer.fit_transform(df.summary)
 #%% 
 # K-Means
 from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 kmeans = KMeans(n_clusters=10, random_state=42)
 kmeans.fit(vec_summary)
@@ -51,29 +52,21 @@ plt.grid()
 plt.xticks(range(0, 10))
 
 #%%
+cluster_size = 16
 inertia = []
-for i in range(2, 16):
-    print('cluster: %d' %i)
+for i in range(2, cluster_size):
     km = KMeans(n_clusters=i, random_state=42)
     km.fit(vec_summary)
     inertia.append(km.inertia_)
-
-#%%
-for i in range(16, 26):
-    print('cluster: %d' %i)
-    km = KMeans(n_clusters=i, random_state=42)
-    km.fit(vec_summary)
-    inertia.append(km.inertia_)
+    sil_score = silhouette_score(vec_summary, km.labels_, metric='euclidean')
+    print('Cluster: %d, silhouette score: %.9f' %(i, sil_score))
 
 #%%
 fig, ax = plt.subplots(figsize=(10, 10))
-ax.plot(range(2, 26), inertia, label='elbow plot', marker='o', markerfacecolor='r')
-ax.set_xticks(range(2, 26))
+ax.plot(range(2, cluster_size), inertia, label='elbow plot', marker='o', markerfacecolor='r')
+ax.set_xticks(range(2, cluster_size))
 ax.grid()
 plt.legend()
 
 #%%
 clusters25 = km.predict(vec_summary)
-
-#%%
-df['summary'][clusters25 == 1].head(5)
