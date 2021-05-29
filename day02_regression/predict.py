@@ -10,10 +10,24 @@ import seaborn as sns
 #%%
 cols = ['Feature_1', 'Feature_2', 'Feature_3', 'Feature_4', 'Feature_5'
     , 'Ret_MinusTwo', 'Ret_MinusOne', 'Ret_2', 'Ret_3']
+
+
 target = 'Ret_3'
+
 df = pd.read_csv('day02_regression/data/winton/train.csv'
     , usecols=cols
 )
+
+#%%
+# Another way to determine the cols - with least na
+cols = [ c for c in df.columns if c.startswith('Feature_') ]
+# sort and pick the top 6 columns the least NAs
+df.loc[:, cols].isna().sum().sort_values()
+
+# get the index name
+selected_cols = df.loc[:, cols].isna().sum().sort_values().index
+# convert to regular array, numpy array use .values
+selected_cols = selected_cols.tolist()
 
 #%%
 # verify that there are lots of NaN in Feature_1
@@ -84,7 +98,7 @@ pd.DataFrame(X_train_scaled).isna().any()
 
 
 #%%
-# PCA plot
+# PCA plot, need to scale first
 from sklearn.decomposition import PCA
 
 pca = PCA(n_components=len(df_features_clean.columns))
