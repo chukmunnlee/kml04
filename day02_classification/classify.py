@@ -25,6 +25,7 @@ print('dataset size: %d' %len(df))
 print('max na: %d' %max(df.isna().sum()))
 
 #%%
+# determine if we should do a drop na
 df.dropna(inplace=True)
 print('dataset size after dropna: %d' %len(df))
 
@@ -53,6 +54,7 @@ df
 
 #%%
 import seaborn as sns
+# duration about 90sec on deepnote
 sns.pairplot(df.iloc[:, 0: len(df) - 1])
 
 #%%
